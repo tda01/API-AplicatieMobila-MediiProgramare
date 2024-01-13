@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicatieMobila.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="micaciuperca.jpg"
+                SemanticProperties.Description="Photo of a mushroom restaurant"
+                HeightRequest="300"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Mica Ciuperca"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+
+            <Label
+                Text="Welcome to Mica Ciuperca Restaurant!"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to Mica Ciuperca Restaurant"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
