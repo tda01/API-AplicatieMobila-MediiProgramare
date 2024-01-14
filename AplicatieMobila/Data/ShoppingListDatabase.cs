@@ -20,6 +20,11 @@ namespace AplicatieMobila.Data
             return restService.RefreshDataAsync();
         }
 
+        public Task<List<Product>> GetProductsAsync()
+        {
+            return restService.RefreshProductAsync();
+        }
+
         public Task SaveShopListAsync(ShopList item, bool isNewItem = true)
         {
             return restService.SaveShopListAsync(item, isNewItem);

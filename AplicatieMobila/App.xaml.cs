@@ -10,7 +10,8 @@ namespace AplicatieMobila
         public App()
         {
             Database = new ShoppingListDatabase(new RestService());
-            MainPage = new AppShell();
+            MainPage = new AppShell(); 
+
         }
     }
 }

@@ -12,9 +12,13 @@ namespace AplicatieMobila.Data
     {
         HttpClient client;
 
-        //se va modifica ulterior cu ip-ul si portul corespunzator
-        string RestUrl = "https://192.168.100.27:45456/api/shoplists/{0}";
+        // Se va modifica ulterior cu IP-ul și portul corespunzător
+        string RestUrl = "https://192.168.100.27:45455/api/products/{0}";
+
         public List<ShopList> Items { get; private set; }
+        public List<Product> Products { get; private set; }
+
+
         public RestService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -41,6 +45,29 @@ namespace AplicatieMobila.Data
             }
             return Items;
         }
+
+        public async Task<List<Product>> RefreshProductAsync()
+        {
+            Products = new List<Product>();
+            Uri uri = new Uri(string.Format(RestUrl, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Products = JsonConvert.DeserializeObject<List<Product>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return Products;
+        }
+
+
+
         public async Task SaveShopListAsync(ShopList item, bool isNewItem = true)
         {
             Uri uri = new Uri(string.Format(RestUrl, string.Empty));

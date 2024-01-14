@@ -17,6 +17,11 @@
  ContentTemplate="{DataTemplate local:AboutPage}"
  />
 
+        <ShellContent
+ Title="Test"
+ ContentTemplate="{DataTemplate local:ListEntryPage}"
+ />
+
     </TabBar>
 
 
