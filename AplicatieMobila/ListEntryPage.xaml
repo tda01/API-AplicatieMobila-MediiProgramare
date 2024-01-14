@@ -2,14 +2,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AplicatieMobila.ListEntryPage"
-             Title="ListEntryPage">
-    <ListView x:Name="listView"
- Margin="20"
- ItemSelected="OnListViewItemSelected">
+             Title="Menu">
+    <ListView x:Name="listView" Margin="20" ItemSelected="OnListViewItemSelected">
+        <ListView.Header>
+            <StackLayout BackgroundColor="#781500" Padding="10">
+                <Label Text="Categories" FontAttributes="Bold" TextColor="White" FontSize="20" />
+            </StackLayout>
+        </ListView.Header>
+
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Name}"
- Detail="{Binding Description}" />
+                <ViewCell>
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding CategoryName}" FontAttributes="Bold" FontSize="24" />
+                    </StackLayout>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

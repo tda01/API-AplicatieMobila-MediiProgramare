@@ -7,11 +7,11 @@ using AplicatieMobila.Models;
 
 namespace AplicatieMobila.Data
 {
-    public class ShoppingListDatabase
+    public class ProductDatabase
     {
 
         IRestService restService;
-        public ShoppingListDatabase(IRestService service)
+        public ProductDatabase(IRestService service)
         {
             restService = service;
         }
@@ -24,6 +24,12 @@ namespace AplicatieMobila.Data
         {
             return restService.RefreshProductAsync();
         }
+
+        public Task<List<Category>> GetCategoryAsync()
+        {
+            return restService.RefreshCategoriesAsync();
+        }
+
 
         public Task SaveShopListAsync(ShopList item, bool isNewItem = true)
         {

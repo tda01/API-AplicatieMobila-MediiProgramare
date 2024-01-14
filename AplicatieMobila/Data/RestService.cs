@@ -12,24 +12,35 @@ namespace AplicatieMobila.Data
     {
         HttpClient client;
 
-        // Se va modifica ulterior cu IP-ul și portul corespunzător
-        string RestUrl = "https://192.168.100.27:45455/api/products/{0}";
+        string BaseUrl = "https://192.168.100.27:45455/api/";
+
+        
+        string RestEndpoint = "{0}";
 
         public List<ShopList> Items { get; private set; }
         public List<Product> Products { get; private set; }
+        public List<Category> Categories { get; private set; }
 
 
         public RestService()
         {
             var httpClientHandler = new HttpClientHandler();
             httpClientHandler.ServerCertificateCustomValidationCallback =
-            (message, cert, chain, errors) => { return true; };
+            (message, cert, chain, errors) => true;
             client = new HttpClient(httpClientHandler);
         }
+
+        
+        private Uri BuildUri(string endpoint)
+        {
+            string fullUrl = $"{BaseUrl}{endpoint}";
+            return new Uri(fullUrl);
+        }
+
         public async Task<List<ShopList>> RefreshDataAsync()
         {
             Items = new List<ShopList>();
-            Uri uri = new Uri(string.Format(RestUrl, string.Empty));
+            Uri uri = BuildUri(string.Format(RestEndpoint, "products"));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -49,7 +60,7 @@ namespace AplicatieMobila.Data
         public async Task<List<Product>> RefreshProductAsync()
         {
             Products = new List<Product>();
-            Uri uri = new Uri(string.Format(RestUrl, string.Empty));
+            Uri uri = BuildUri(string.Format(RestEndpoint, "products"));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -67,15 +78,42 @@ namespace AplicatieMobila.Data
         }
 
 
+        public async Task<List<Category>> RefreshCategoriesAsync()
+        {
+            Categories = new List<Category>();
+            Uri uri = BuildUri(string.Format(RestEndpoint, "categories"));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Categories = JsonConvert.DeserializeObject<List<Category>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return Categories;
+        }
+
+
+
+
+
+
+
+
+
 
         public async Task SaveShopListAsync(ShopList item, bool isNewItem = true)
         {
-            Uri uri = new Uri(string.Format(RestUrl, string.Empty));
+            Uri uri = BuildUri(string.Format(RestEndpoint, "products"));
             try
             {
                 string json = JsonConvert.SerializeObject(item);
-                StringContent content = new StringContent(json, Encoding.UTF8,
-               "application/json");
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = null;
                 if (isNewItem)
                 {
@@ -95,9 +133,10 @@ namespace AplicatieMobila.Data
                 Console.WriteLine(@"\tERROR {0}", ex.Message);
             }
         }
+
         public async Task DeleteShopListAsync(int id)
         {
-            Uri uri = new Uri(string.Format(RestUrl, id));
+            Uri uri = BuildUri(string.Format(RestEndpoint, $"products/{id}"));
             try
             {
                 HttpResponseMessage response = await client.DeleteAsync(uri);
@@ -112,4 +151,5 @@ namespace AplicatieMobila.Data
             }
         }
     }
+
 }

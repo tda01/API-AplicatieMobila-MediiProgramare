@@ -13,6 +13,7 @@ namespace AplicatieMobila.Data
         Task SaveShopListAsync(ShopList item, bool isNewItem);
         Task DeleteShopListAsync(int id);
         Task<List<Product>> RefreshProductAsync();
+        Task<List<Category>> RefreshCategoriesAsync();
 
     }
 }

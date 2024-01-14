@@ -12,7 +12,7 @@
             <Image
                 Source="micaciuperca.jpg"
                 SemanticProperties.Description="Photo of a mushroom restaurant"
-                HeightRequest="300"
+                HeightRequest="500"
                 HorizontalOptions="Center" />
 
             <Label

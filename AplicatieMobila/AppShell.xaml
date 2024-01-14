@@ -18,7 +18,7 @@
  />
 
         <ShellContent
- Title="Test"
+ Title="Menu"
  ContentTemplate="{DataTemplate local:ListEntryPage}"
  />
 
