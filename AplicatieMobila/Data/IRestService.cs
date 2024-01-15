@@ -11,9 +11,19 @@ namespace AplicatieMobila.Data
     {
         Task<List<ShopList>> RefreshDataAsync();
         Task SaveShopListAsync(ShopList item, bool isNewItem);
+
+        Task SaveReservationAsync(Reservation item, bool isNewItem);
+
         Task DeleteShopListAsync(int id);
         Task<List<Product>> RefreshProductAsync();
         Task<List<Category>> RefreshCategoriesAsync();
+        Task<List<Client>> RefreshClientAsync();
+
+        Task<List<Reservation>> RefreshReservationAsync();
+        Task<Client> GetClientByIdAsync(int clientId);
+
+        Task DeleteReservationAsync(Reservation reservation);
+        Task UpdateReservationAsync(Reservation reservation);
 
     }
 }

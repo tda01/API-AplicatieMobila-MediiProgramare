@@ -29,7 +29,9 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
-
+            <Button Text="Show on Map" Grid.Column="1"
+MaximumWidthRequest="200"
+ Clicked="OnShowMapButtonClicked"></Button>
 
         </VerticalStackLayout>
     </ScrollView>

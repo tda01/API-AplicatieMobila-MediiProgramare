@@ -27,5 +27,9 @@ namespace ProiectAPI.Data
         public DbSet<ProiectAPI.Models.ProductAllergen>? ProductAllergen { get; set; }
 
         public DbSet<ProiectAPI.Models.ProductIngredient>? ProductIngredient { get; set; }
+
+        public DbSet<ProiectAPI.Models.Reservation>? Reservation { get; set; }
+
+        public DbSet<ProiectAPI.Models.Client>? Client { get; set; }
     }
 }

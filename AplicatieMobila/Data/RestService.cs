@@ -20,6 +20,9 @@ namespace AplicatieMobila.Data
         public List<ShopList> Items { get; private set; }
         public List<Product> Products { get; private set; }
         public List<Category> Categories { get; private set; }
+        public List<Client> Clients { get; private set; }
+
+        public List<Reservation> Reservations { get; private set; }
 
 
         public RestService()
@@ -99,11 +102,70 @@ namespace AplicatieMobila.Data
         }
 
 
+        public async Task<List<Client>> RefreshClientAsync()
+        {
+            Clients = new List<Client>();
+            Uri uri = BuildUri(string.Format(RestEndpoint, "clients"));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Clients = JsonConvert.DeserializeObject<List<Client>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return Clients;
+        }
 
 
 
+        public async Task<List<Reservation>> RefreshReservationAsync()
+        {
+            Reservations = new List<Reservation>();
+            Uri uri = BuildUri(string.Format(RestEndpoint, "reservations"));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Reservations = JsonConvert.DeserializeObject<List<Reservation>>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+            return Reservations;
+        }
 
+        public async Task<Client> GetClientByIdAsync(int clientId)
+        {
 
+            Uri uri = BuildUri(string.Format(RestEndpoint, $"clients/{clientId}"));
+
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<Client>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+
+            return null;
+        }
 
 
 
@@ -134,6 +196,40 @@ namespace AplicatieMobila.Data
             }
         }
 
+
+        public async Task SaveReservationAsync(Reservation item, bool isNewItem = true)
+        {
+            Uri uri = BuildUri(string.Format(RestEndpoint, "reservations"));
+            try
+            {
+                string json = JsonConvert.SerializeObject(item);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = null;
+                if (isNewItem)
+                {
+                    response = await client.PostAsync(uri, content);
+                }
+                else
+                {
+                    response = await client.PutAsync(uri, content);
+                }
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(@"\tTodoItem successfully saved.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+        }
+
+
+
+
+
+
+
         public async Task DeleteShopListAsync(int id)
         {
             Uri uri = BuildUri(string.Format(RestEndpoint, $"products/{id}"));
@@ -150,6 +246,58 @@ namespace AplicatieMobila.Data
                 Console.WriteLine(@"\tERROR {0}", ex.Message);
             }
         }
+
+
+
+        public async Task DeleteReservationAsync(Reservation reservation)
+        {
+            Uri uri = BuildUri(string.Format(RestEndpoint, $"reservations/{reservation.ID}"));
+            try
+            {
+                HttpResponseMessage response = await client.DeleteAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(@"\tTodoItem successfully deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+        }
+
+        public async Task UpdateReservationAsync(Reservation reservation)
+        {
+            Uri uri = BuildUri(string.Format(RestEndpoint, $"reservations/{reservation.ID}"));
+
+            try
+            {
+                string json = JsonConvert.SerializeObject(reservation);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PutAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine(@"\tReservation successfully updated.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"\tERROR {0}", ex.Message);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }

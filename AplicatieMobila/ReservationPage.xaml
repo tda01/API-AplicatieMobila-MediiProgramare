@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicatieMobila.ReservationPage"
+             Title="Reservations">
+    <StackLayout>
+        <ListView x:Name="listView" Margin="20" ItemSelected="OnListViewItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Client.FullName, StringFormat='Full Name: {0}'}" FontAttributes="Bold" />
+                            <Label Text="{Binding NumberPeople, StringFormat='Number of People: {0}'}" />
+                            <Label Text="{Binding ReservationDate, StringFormat='Reservation Date: {0:MM/dd/yyyy HH:mm}'}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Create Reservation" Clicked="OnCreateReservationClicked" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" />
+    </StackLayout>
+
+</ContentPage>

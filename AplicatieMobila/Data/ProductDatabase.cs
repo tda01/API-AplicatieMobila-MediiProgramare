@@ -30,6 +30,22 @@ namespace AplicatieMobila.Data
             return restService.RefreshCategoriesAsync();
         }
 
+        public Task<List<Client>> GetClientsAsync()
+        {
+            return restService.RefreshClientAsync();
+        }
+
+        public Task<List<Reservation>> GetReservationsAsync()
+        {
+            return restService.RefreshReservationAsync();
+        }
+
+        public Task<Client> GetClientByIdAsync(int clientId)
+        {
+            return restService.GetClientByIdAsync(clientId);
+        }
+
+
 
         public Task SaveShopListAsync(ShopList item, bool isNewItem = true)
         {
@@ -40,6 +56,23 @@ namespace AplicatieMobila.Data
         public Task DeleteShopListAsync(ShopList item)
         {
             return restService.DeleteShopListAsync(item.ID);
+        }
+
+
+
+        public Task DeleteReservationAsync(Reservation item)
+        {
+            return restService.DeleteReservationAsync(item);
+        }
+
+        public Task UpdateReservationAsync(Reservation item)
+        {
+            return restService.UpdateReservationAsync(item);
+        }
+
+        public Task SaveReservationAsync(Reservation item, bool isNewItem = true)
+        {
+            return restService.SaveReservationAsync(item, isNewItem);
         }
 
 
